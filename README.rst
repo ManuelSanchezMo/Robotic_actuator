@@ -75,9 +75,21 @@ Bill of Materials
      - 10010 stator
      - 100mm x 78 mmx 10mm, 36 slots, steel stator
      - 1
-
 Controller
 ----------
+
+    .. image:: ./imgs/controller_front.png
+          :target: ./imgs/side
+          :alt: side
+          :width: 300
+    .. image:: ./imgs/controller_back.png
+          :target: ./imgs/side
+          :alt: side
+          :width: 300
+    .. csv-table:: BOM for the controller
+        :widths: 15 40 20 15 40 20 15 40 20 20
+        :header: "", "", "", "", "", "", "", "", "", ""
+        :file: data/controller_bom.csv
 CAN Protocol
 ------------
 
