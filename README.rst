@@ -27,7 +27,6 @@ Bill of Materials
 .. image:: ./imgs/exploded.PNG
           :target: ./imgs/side
           :alt: side
-          :width: 200
 
 .. list-table:: Title
    :widths: 50 50 75
