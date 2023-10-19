@@ -75,18 +75,19 @@ Bill of Materials
      - 10010 stator
      - 100mm x 78 mmx 10mm, 36 slots, steel stator
      - 1
+     
 Controller
 ----------
 
-    .. image:: ./imgs/controller_front.png
+.. image:: ./imgs/controller_front.png
           :target: ./imgs/controller_front
           :alt: controller_front
           :width: 300
-    .. image:: ./imgs/controller_back.png
+.. image:: ./imgs/controller_back.png
           :target: ./imgs/controller_back
           :alt: controller_back
           :width: 300
-    .. csv-table:: The contents of my xlsx sheet exported to mytable.csv
+.. csv-table:: The contents of my xlsx sheet exported to mytable.csv
         :widths: 15 40 20 15 40 20 15 40 20 20
         :header: "", "", "", "", "", "", "", "", "", ""
         :file: data/controller_bom.csv
