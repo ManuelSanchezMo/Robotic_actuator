@@ -4,23 +4,23 @@ Views:
     .. image:: ./imgs/rotating.gif
           :target: ./imgs/side
           :alt: side
-          :width: 400
+          :width: 300
 
 
     .. image:: ./imgs/side.PNG
           :target: ./imgs/side
           :alt: side
-          :width: 400
+          :width: 300
 
     .. image:: ./imgs/front.PNG
           :target: ./imgs/front
           :alt: front
-          :width: 400
+          :width: 300
 
     .. image:: ./imgs/Cut.PNG
           :target: ./imgs/Cut
           :alt: Cut
-          :width: 400
+          :width: 300
 
 Bill of Materials
 -----------------
