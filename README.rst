@@ -79,17 +79,18 @@ Controller
 ----------
 
     .. image:: ./imgs/controller_front.png
-          :target: ./imgs/side
-          :alt: side
+          :target: ./imgs/controller_front
+          :alt: controller_front
           :width: 300
     .. image:: ./imgs/controller_back.png
-          :target: ./imgs/side
-          :alt: side
+          :target: ./imgs/controller_back
+          :alt: controller_back
           :width: 300
-    .. csv-table:: BOM for the controller
+    .. csv-table:: The contents of my xlsx sheet exported to mytable.csv
         :widths: 15 40 20 15 40 20 15 40 20 20
         :header: "", "", "", "", "", "", "", "", "", ""
         :file: data/controller_bom.csv
+
 CAN Protocol
 ------------
 
