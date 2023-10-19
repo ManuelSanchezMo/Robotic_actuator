@@ -2,7 +2,9 @@ Introduction
 ------------
 Views:
     .. image:: ./imgs/rotating.gif
-       
+          :target: ./imgs/side
+          :alt: side
+          :width: 200
 
 
     .. image:: ./imgs/side.PNG
