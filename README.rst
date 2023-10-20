@@ -1,5 +1,7 @@
 Introduction
 ------------
+This repository contains the drawings, electronics schematics, firmware and building instructions for a (almost) completely 3D printed robotic actuator. The actuator is based in a 36 stator poles and 42 rotor/magnetic poles BLCD, whiose output is attached to a 6:1 planetary gearbox.  
+
 Views:
     .. image:: ./imgs/rotating.gif
           :target: ./imgs/side
