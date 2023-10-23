@@ -3,25 +3,25 @@ Introduction
 This repository contains the drawings, electronics schematics, firmware and building instructions for a (almost) completely 3D printed robotic actuator. The actuator is based in a 36 stator poles and 42 rotor/magnetic poles BLCD, whiose output is attached to a 6:1 planetary gearbox.  
 
 Views:
-    .. image:: ./imgs/rotating.gif
-          :target: ./imgs/side
-          :alt: side
-          :width: 300
 
-    .. image:: ./imgs/side.PNG
-          :target: ./imgs/side
-          :alt: side
-          :width: 300
+.. list-table:: 
 
-    .. image:: ./imgs/front.PNG
-          :target: ./imgs/front
-          :alt: front
-          :width: 300
+    * - .. figure:: ./imgs/rotating.gif
 
-    .. image:: ./imgs/Cut.PNG
-          :target: ./imgs/Cut
-          :alt: Cut
-          :width: 300
+           Fig 1. Perspective View
+
+      - .. figure:: ./imgs/side.PNG
+
+           Fig 2. Front View
+    * - .. figure:: ./imgs/front.PNG
+
+           Fig 3. Top View
+
+      - .. figure:: ./imgs/Cut.PNG
+
+           Fig 4. Side View
+
+   
 
 Bill of Materials
 -----------------
@@ -81,14 +81,17 @@ Bill of Materials
 Controller
 ----------
 
-.. image:: ./imgs/controller_front.png
-          :target: ./imgs/controller_front
-          :alt: controller_front
-          :width: 300
-.. image:: ./imgs/controller_back.png
-          :target: ./imgs/controller_back
-          :alt: controller_back
-          :width: 300
+.. list-table:: 
+
+    * - .. figure:: ./imgs/controller_front.png
+
+           Fig 1. Front
+
+      - .. figure:: ./imgs/controller_back.png
+
+           Fig 2. Back
+
+
 .. list-table:: Bill of materials
   :widths: 50 50 75 50 50 50 75 50 75 50
   :header-rows: 1
@@ -413,9 +416,11 @@ Controller
     - ZhejiangAbelElec
     - C150559
     - LCSC
+Firmware
+--------
 
 CAN Protocol
-------------
+^^^^^^^^^^^^
 
 Buildin Instructions
 --------------------
