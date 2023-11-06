@@ -1,6 +1,6 @@
-#include <FiniteStateMachine.h>
-#include <mcp2515.h> 
-#include <SimpleFOC.h>
+#include <FSM/FiniteStateMachine.h>
+#include <mcp2515/mcp2515.h> 
+#include <Arduino-FOC/SimpleFOC.h>
 #define BIT(n,i) (n>>i&1)
 
 //define states and working functions
@@ -26,7 +26,6 @@ int CobidTostop = 0x004;
 int Cobidanglesp = 005;
 int Cobidmotordata = 0x006;
 
-int angleSp = 127;
 FSM Motor = FSM(INITIALIZATION);
 bool initDone = false;
 bool calibrationDone = false;
@@ -43,6 +42,7 @@ uint16_t myVar = 0;
 float zero_angle = 0;
 float zero_elec_angle = 0;
 
+
 // motor instance
 int nPolePairs = 21;
 BLDCMotor motor = BLDCMotor(nPolePairs);
@@ -54,83 +54,7 @@ BLDCDriver3PWM driver = BLDCDriver3PWM(INH_A, INH_B, INH_C, EN_GATE);
 
 void setup() {
  
-  Serial.begin(115200);
-  Serial.println("AS5048A - Codificador de posición magnetico");
-  SPI.begin();
 
-  pinMode(PA_3, OUTPUT); //Pin CS - salida
-  pinMode(PB_8, OUTPUT); //Pin CS - salida
-
-  mcp2515.reset();
-  mcp2515.setBitrate(CAN_500KBPS, MCP_8MHZ); //Sets CAN at speed 500KBPS and Clock 8MHz
-  mcp2515.setNormalMode();
-MagneticSensorSPIConfig_s AS5048_SPI_custom = {
-  .spi_mode = SPI_MODE1,
-  .clock_speed = 100000,
-  .bit_resolution = 14,
-  .angle_register = 0x3FFF,
-  .data_start_bit = 13,
-  .command_rw_bit = 14,
-  .command_parity_bit = 15
-};
-MagneticSensorSPI sensor = MagneticSensorSPI(AS5048_SPI_custom, Cs_pin_sensor);
-  // M_OC  - enable over-current protection
-  pinMode(M_OC,OUTPUT);
-  digitalWrite(M_OC,LOW);
-
-  // M_PWM  - enable 3pwm mode
-  pinMode(M_PWM,OUTPUT);
-  digitalWrite(M_PWM,HIGH);
-
-  // OD_ADJ - set the maximum over-current limit possible
-  // Better option would be to use voltage divisor to set exact value
-  pinMode(OC_ADJ,OUTPUT);
-  digitalWrite(OC_ADJ,HIGH);
-  // initialise magnetic sensor hardware
-  sensor.init();
-
-  motor.linkSensor(&sensor);
-  delay(10000); //espera 2 seg
-
-  // driver config
-  // power supply voltage [V]
-  driver.voltage_power_supply = 25;
-  driver.init();
-  // link the motor and the driver
-  motor.linkDriver(&driver);
-  // choose FOC modulation (optional)
-  motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
-
-  // set motion control loop to be used
-  motor.controller = MotionControlType::angle;
-
-  // contoller configuration
-  // default parameters in defaults.h
-
-  // velocity PI controller parameters
-  motor.PID_velocity.P = 10.0f;
-  motor.PID_velocity.I = 0.02f;
-  motor.PID_velocity.D = 0.0f;
-  // maximal voltage to be set to the motor
-  motor.voltage_limit = 15;
-
-  // velocity low pass filtering time constant
-  // the lower the less filtered
-  motor.LPF_velocity.Tf = 0.1f;
-  motor.LPF_angle.Tf = 0.1f;
-  // angle P controller
-  motor.P_angle.P = 10.0; 
-  motor.P_angle.I = 0.1;  // usually only P controller is enough 
-  motor.P_angle.D = 0.0;  // usually only P controller is enough   // maximal velocity of the position control
-  motor.velocity_limit = 100;
-  motor.voltage_sensor_align = 7;
-  motor.monitor_variables = _MON_TARGET | _MON_VEL | _MON_ANGLE |_MON_VOLT_Q|_MON_VOLT_D|_MON_CURR_Q|_MON_CURR_D;
-  //motor.useMonitoring(Serial);
-  motor.init();
-
-  motor.initFOC();
-  //initiate state machines
-  //Serial.println("Motor ready."); 
 
 }
 
@@ -208,20 +132,105 @@ void loop() {
 
 
 void initMotor(){
-  //Serial.println("in init!");
+  //Driver, encoder and foc algo init;
+  Serial.begin(115200);
+  Serial.println("AS5048A - Codificador de posición magnetico");
+  SPI.begin();
+
+  pinMode(PA_3, OUTPUT); //Pin CS - salida
+  pinMode(PB_8, OUTPUT); //Pin CS - salida
+
+  mcp2515.reset();
+  mcp2515.setBitrate(CAN_500KBPS, MCP_8MHZ); //Sets CAN at speed 500KBPS and Clock 8MHz
+  mcp2515.setNormalMode();
+MagneticSensorSPIConfig_s AS5048_SPI_custom = {
+  .spi_mode = SPI_MODE1,
+  .clock_speed = 100000,
+  .bit_resolution = 14,
+  .angle_register = 0x3FFF,
+  .data_start_bit = 13,
+  .command_rw_bit = 14,
+  .command_parity_bit = 15
+};
+MagneticSensorSPI sensor = MagneticSensorSPI(AS5048_SPI_custom, Cs_pin_sensor);
+  // M_OC  - enable over-current protection
+  pinMode(M_OC,OUTPUT);
+  digitalWrite(M_OC,LOW);
+
+  // M_PWM  - enable 3pwm mode
+  pinMode(M_PWM,OUTPUT);
+  digitalWrite(M_PWM,HIGH);
+
+  // OD_ADJ - set the maximum over-current limit possible
+  // Better option would be to use voltage divisor to set exact value
+  pinMode(OC_ADJ,OUTPUT);
+  digitalWrite(OC_ADJ,HIGH);
+  // initialise magnetic sensor hardware
+  sensor.init();
+
+  motor.linkSensor(&sensor);
+  delay(10000); //espera 2 seg
+
+  // driver config
+  // power supply voltage [V]
+  driver.voltage_power_supply = 25;
+  driver.init();
+  // link the motor and the driver
+  motor.linkDriver(&driver);
 
 }
 
 void preopMotor(){
+  //Motor  params
+  P_motor = CobidTopreop[0];
+  I_motor = CobidTopreop[1];
+  D_motor = CobidTopreop[2];
+  motor_velocity_limit = CobidTopreop[3];
+  motor_voltage_sensor_align = CobidTopreop[4];
   // link the motor to the sensor
+    // choose FOC modulation (optional)
+  motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
+
+  // set motion control loop to be used
+  motor.controller = MotionControlType::angle;
+
+  // contoller configuration
+  // default parameters in defaults.h
+
+  // velocity PI controller parameters
+  motor.PID_velocity.P = P_motor;
+  motor.PID_velocity.I = I_motor;
+  motor.PID_velocity.D = D_motor;
+  // maximal voltage to be set to the motor
+  motor.voltage_limit = 15;
+
+  // velocity low pass filtering time constant
+  // the lower the less filtered
+  motor.LPF_velocity.Tf = 0.1f;
+  motor.LPF_angle.Tf = 0.1f;
+  // angle P controller
+  motor.P_angle.P = P_motor; 
+  motor.P_angle.I = I_motor;  // usually only P controller is enough 
+  motor.P_angle.D = D_motor;  // usually only P controller is enough   // maximal velocity of the position control
+  motor.velocity_limit = motor_velocity_limit;
+  motor.voltage_sensor_align =  motor.voltage_sensor_align;
+  motor.monitor_variables = _MON_TARGET | _MON_VEL | _MON_ANGLE |_MON_VOLT_Q|_MON_VOLT_D|_MON_CURR_Q|_MON_CURR_D;
+  //motor.useMonitoring(Serial);
+  motor.init();
+
+  //initiate state machines
+  //Serial.println("Motor ready."); 
+
   if (!calibrationDone){
      if (canMsg.data[0] == 1){
-        //Serial.println("calibrating");
-        //motor.initFOC();
+        Serial.println("calibrate motor");
+        motor.initFOC();
         }
       else {
-        //Serial.println("skiip");
-        //motor.initFOC(2.1, Direction::CCW);
+        Serial.println("skip calibration");
+        if canMsg.data[0]  QChar::Direction direction = Direction::CCW;
+        else QChar::Direction direction = Direction::CW,
+        motor.initFOC(canMsg.data[1], direction);
        }
        calibrationDone = true;
     }
@@ -239,20 +248,20 @@ void runMotor(){
 
   canMsg.can_id  = Cobidmotordata;           //CAN id as 0x036
   canMsg.can_dlc = 8;               //CAN data length as 8
-  canMsg.data[0] = -20;               //Update humidity value in [0]
-  canMsg.data[1] = 1;               //Update temperature value in [1]
-  canMsg.data[2] = 2;            //Rest all with 0
-  canMsg.data[3] = 3;
-  canMsg.data[4] = 4;
-  canMsg.data[5] = 5;
-  canMsg.data[6] = 6;
-  canMsg.data[7] = 7;
+  canMsg.data[0] = motor.target;               //
+  canMsg.data[1] =  motor.shaft_angle;               //
+  canMsg.data[2] = motor.shaft_velocity;            //Rest all with 0
+  canMsg.data[3] = motor.shaft_velocity_sp;
+  canMsg.data[4] = sqrt2(motor.voltage.q*motor.voltage.q + motor.voltage.d*motor.voltage.d);
+  canMsg.data[5] = motor.Ua;
+  canMsg.data[6] = motor.Ub;
+  canMsg.data[7] = motor.Ub;
  
   mcp2515.sendMessage(&canMsg);     //Sends the CAN message
- motor.monitor();
- // Serial.println(int(motor.voltage.q*1000));
- //Serial.println((motor.voltage.q));
- //Serial.println((angleSp-125)*0.048);
+  motor.monitor();
+  // Serial.println(int(motor.voltage.q*1000));
+  //Serial.println((motor.voltage.q));
+  //Serial.println((angleSp-125)*0.048);
 
 
 }
