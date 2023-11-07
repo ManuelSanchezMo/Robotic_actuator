@@ -36,29 +36,37 @@ BS_:
 BU_:
 
 
-BO_ 933 DRIVE_SP: 2 Vector__XXX
-	SG_ speed_sp : 0|16@1- (1,0) [0|31402] "cmd" Vector__XXX
 
-BO_ 934 STEER_SP: 2 Vector__XXX
-	SG_ speed_sp : 0|16@1- (1,0) [0|31402] "cmd" Vector__XXX
 
-BO_ 421 DRIVE_FB: 8 Vector__XXX
+BO_ 1 INIT_FB: 8 Vector__XXX
+	SG_ P_control : 0|16@1- (0.125,0) [0|8192] "" Vector__XXX
+	SG_ I_control : 16|16@1- (0.125,0) [0|8192] "" Vector__XXX
+	SG_ D_control : 32|16@1- (0.125,0) [0|8192] "" Vector__XXX	
+	SG_ Volt_limit : 48|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
+
+BO_ 2 MOTOR_OUT_ELEC: 8 Vector__XXX
+	SG_ Ua : 0|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX
+	SG_ Ub : 16|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX
+	SG_ current : 32|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
+	SG_ electrical_angle : 48|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
+	
+BO_ 3 MOTOR_OUT_MEC: 6 Vector__XXX
+	SG_ shaft_angle : 0|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX
+	SG_ shaft_angle_sp : 16|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX
+	SG_ shaft_velocity : 32|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
+
+BO_ 7 MOTOR_ANGLE_SP: 2 Vector__XXX
+	SG_ angle_sp : 0|16@1+ (0.125,-4095) [-4096|4096] "" Vector__XXX
+
+BO_ 5 DRIVE_Fd: 8 Vector__XXX
 	SG_ speed : 0|16@1- (1,0) [0|0] "" Vector__XXX
 	SG_ position : 16|32@1- (1,0) [0|0] "" Vector__XXX
 	SG_ FB3 : 48|16@1- (1,0) [0|0] "" Vector__XXX	
 
-BO_ 293 DRIVE_FB2: 6 Vector__XXX
-	SG_ A : 0|8@1- (1,0) [0|0] "" Vector__XXX
-	SG_ B : 24|24@1- (1,0) [0|0] "" Vector__XXX
-
-BO_ 422 STEER_FB: 8 Vector__XXX
+BO_ 6 DRIVE_Fs: 8 Vector__XXX
 	SG_ speed : 0|16@1- (1,0) [0|0] "" Vector__XXX
 	SG_ position : 16|32@1- (1,0) [0|0] "" Vector__XXX
 	SG_ FB3 : 48|16@1- (1,0) [0|0] "" Vector__XXX	
-
-BO_ 294 STEER_FB2: 6 Vector__XXX
-	SG_ A : 0|8@1- (1,0) [0|0] "" Vector__XXX
-	SG_ B : 24|24@1- (1,0) [0|0] "" Vector__XXX
 
 CM_ BO_ 933 "Driver controller set point";
 CM_ SG_ 933 speed_sp "Driver speed set point";
