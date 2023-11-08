@@ -58,24 +58,16 @@ BO_ 3 MOTOR_OUT_MEC: 6 Vector__XXX
 BO_ 7 MOTOR_ANGLE_SP: 2 Vector__XXX
 	SG_ angle_sp : 0|16@1+ (0.125,-4095) [-4096|4096] "" Vector__XXX
 
-BO_ 5 DRIVE_Fd: 8 Vector__XXX
-	SG_ speed : 0|16@1- (1,0) [0|0] "" Vector__XXX
-	SG_ position : 16|32@1- (1,0) [0|0] "" Vector__XXX
-	SG_ FB3 : 48|16@1- (1,0) [0|0] "" Vector__XXX	
 
-BO_ 6 DRIVE_Fs: 8 Vector__XXX
-	SG_ speed : 0|16@1- (1,0) [0|0] "" Vector__XXX
-	SG_ position : 16|32@1- (1,0) [0|0] "" Vector__XXX
-	SG_ FB3 : 48|16@1- (1,0) [0|0] "" Vector__XXX	
 
-CM_ BO_ 933 "Driver controller set point";
-CM_ SG_ 933 speed_sp "Driver speed set point";
-CM_ BO_ 934 "Steering controller set point";
-CM_ SG_ 934 speed_sp "Steer speed set point";
-CM_ BO_ 421 "Driver controller feedback";
-CM_ BO_ 422 "Steer controller feedback";
-CM_ BO_ 293 "Driver controller feedback 2";
-CM_ BO_ 294 "Steer controller feedback 2";
+CM_ BO_ 1 "Driver controller set point";
+CM_ SG_ 1 speed_sp "Driver speed set point";
+CM_ BO_ 2 "Steering controller set point";
+CM_ SG_ 2 speed_sp "Steer speed set point";
+CM_ BO_ 3 "Driver controller feedback";
+CM_ BO_ 3 "Steer controller feedback";
+CM_ BO_ 7 "Driver controller feedback 2";
+CM_ BO_ 7 "Steer controller feedback 2";
 
 BA_DEF_ SG_  "SPN" INT 0 524287;
 BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","J1939PG";
