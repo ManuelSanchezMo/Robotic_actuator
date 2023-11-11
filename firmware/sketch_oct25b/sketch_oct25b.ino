@@ -5,7 +5,7 @@
 #include <mcp2515.h>      //Library for using CAN Communication (https://github.com/autowp/arduino-mcp2515/)
 #include <FiniteStateMachine.h>
 #include <SimpleFOC.h>
-#include <can_decode.h>
+//#include <can_decode.h>
 #define   INH_A PB_3
 #define   INH_B PB_4
 #define   INH_C PB_5
@@ -27,17 +27,19 @@ BLDCMotor motor = BLDCMotor(nPolePairs);
 
 // driver instance
 BLDCDriver3PWM driver = BLDCDriver3PWM(INH_A, INH_B, INH_C, EN_GATE);
-float v_P = 10.0, v_I = 0.02, v_D = 0.0, volt_aling = 2.0, v_limit = 20.0, volt_limit=10.0;
+float v_P = 10.0, v_I = 0.02, v_D = 0.0, volt_aling = 2.0, v_limit = 20.0, volt_supply=10.0;
 float P_controller = 10.0, I_controller = 0.1, D_controller = 0.0;
 float cmd_angle = 0;
+bool calibration = true;
+
 State INITIALIZATION = State(initMotorFSM); 
 State PREOPERATIONAL = State(preopMotorFSM);
 State OPERATIONAL = State(runMotorFSM);
 State STOPPED = State(stopMotorFSM);
 FSM MotorFSM = FSM(INITIALIZATION);
-
 enum FSMTransitions {InitToPreop, PreopToOp, PreopToStop, PreopToinit, 
                      OptoPreop, OptoStop, OptoInit, StoptopOp, StoptoPreop, StoptoInit };
+                     
 FSMTransitions asked_transition;
 int Cobid = 0x008;
 int FSN_transition_frame = 0x007;
@@ -46,6 +48,8 @@ int CobidTostop = 0x004;
 int Cobidanglesp = 005;
 int Cobidmotordata = 0x006;
 int Cobidcommangle = 0x008;
+int Cobidconfig1 = 0x008;
+int Cobidconfig2 = 0x010;
 
 int max_val_int = 65535;
 int data_read;
@@ -80,23 +84,51 @@ void loop() {
             if (((int(canMsg.can_id)-Cobid) > 0) && (int(canMsg.can_id)-Cobid) <= 10) Transition_FSM(int(canMsg.can_id)-Cobid);
             
             if (canMsg.can_id == 0x008) cmd_angle = canMsg.data[0];
-            /*
+            
             if (canMsg.can_id == FSN_transition_frame){
 
-              asked_transition = FSMTransitions(int(anMsg.can_id));
-                    Serial.print("Ask trans ");
-
-                  Serial.println(int(canMsg.data[0]));
+              asked_transition = FSMTransitions(int(canMsg.can_id));
+              Serial.print("Ask trans ");
+              Serial.println(int(canMsg.data[0]));
 
    
                     Serial.print("here ");
                    Transition_FSM(asked_transition);
-            }*/
+            }
+            if (canMsg.can_id == Cobidconfig1){
+                motorConfig1(canMsg);
+              }
+            if (canMsg.can_id == Cobidconfig2){
+                motorConfig2(canMsg);
+              }
     }
      if(MotorFSM.isInState(OPERATIONAL))  MotorFSM.update();
     
 }
 
+void motorConfig1(can_frame frame){
+  /*
+   v_P = 10.0; 
+   v_I = 0.02;
+   v_D = 0.0;
+   volt_aling = 2.0;
+  */
+  }
+
+void motorConfig2(can_frame frame){
+  /*
+      v_limit = 20.0;
+      P_controller = 10.0;
+      I_controller = 0.1;
+      D_controller = 0.0;*/
+  }
+void motorConfig3(can_frame frame){
+  /*
+     calibration = true;
+      electrical_angle = 10.0;
+      direction = 1;
+      volt_supply=10;*/
+  }  
 void initMotorFSM(){
   pinMode(LED_BUILTIN, OUTPUT); // LED connect to pin PC13
   pinMode(PA_3, OUTPUT); //Pin CS - CAN
@@ -127,7 +159,7 @@ void initMotorFSM(){
   // initialise magnetic sensor hardware
   // driver config
   // power supply voltage [V]
-  driver.voltage_power_supply = 7;
+  driver.voltage_power_supply = volt_supply;
   driver.init();
   // link the motor and the driver
   motor.linkDriver(&driver);
@@ -151,12 +183,12 @@ void initMotorFSM(){
   canMsg.data[0] = low;
   canMsg.data[0] = high;
   struct can_frame canMsg_out;
-canMsg_out.can_id = 0x15;
-canMsg_out.can_dlc = 2;
-canMsg_out.data[1] = low;
-canMsg_out.data[0] = high;
-mcp2515.sendMessage(MCP2515::TXB1, &canMsg_out);
-}
+  canMsg_out.can_id = 0x15;
+  canMsg_out.can_dlc = 2;
+  canMsg_out.data[1] = low;
+  canMsg_out.data[0] = high;
+  mcp2515.sendMessage(MCP2515::TXB1, &canMsg_out);
+  }
 
 void preopMotorFSM(){
   Serial.println("in preopMotorFSM!");
@@ -164,7 +196,7 @@ void preopMotorFSM(){
   motor.PID_velocity.I = v_I;
   motor.PID_velocity.D = v_D;
   // maximal voltage to be set to the motor
-  motor.voltage_limit = volt_limit;
+  motor.voltage_limit = volt_supply;
 
 
   // angle P controller
@@ -176,7 +208,7 @@ void preopMotorFSM(){
   motor.monitor_variables = _MON_TARGET | _MON_VEL | _MON_ANGLE |_MON_VOLT_Q|_MON_VOLT_D|_MON_CURR_Q|_MON_CURR_D;
   motor.useMonitoring(Serial);
   motor.init();
-  bool calibration = true;
+
   if(calibration){
     motor.electrical_angle =  2.1;
     motor.sensor_direction = Direction::CCW;
@@ -223,8 +255,8 @@ int  float_to_int(float data, float range_float){
 
 void Transition_FSM(int transition)
 {
-                  Serial.println('asked trans');
-                  Serial.println(transition);
+    Serial.println('asked trans');
+    Serial.println(transition);
     switch (transition)
     {
       case 1:
@@ -235,13 +267,13 @@ void Transition_FSM(int transition)
           break;
       case 2:
           if ( MotorFSM.isInState(PREOPERATIONAL)){
-              MotorFSM.transitionTo(OPERATIONAL);
+              MotorFSM.transitionTo(INITIALIZATION);
 
           }
           break;
       case 3:
           if ( MotorFSM.isInState(PREOPERATIONAL) ){
-            MotorFSM.transitionTo(STOPPED);
+            MotorFSM.transitionTo(OPERATIONAL);
           }
           break;
         case 4:
@@ -260,28 +292,7 @@ void Transition_FSM(int transition)
               MotorFSM.transitionTo(STOPPED);
           } 
           break;
-      case 7:
-          if ( MotorFSM.isInState(OPERATIONAL)){
-            MotorFSM.transitionTo(INITIALIZATION);
-          }
-           
-          break;
-      case 8:
-          if ( MotorFSM.isInState(STOPPED)){
-            MotorFSM.transitionTo(OPERATIONAL);
-          }
-           
-          break;
-      case 9:
-          if ( MotorFSM.isInState(STOPPED)){
-            MotorFSM.transitionTo(PREOPERATIONAL);
-          }
-          break;
-      case 10:
-          if (MotorFSM.isInState(STOPPED)){
-            MotorFSM.transitionTo(INITIALIZATION);
-          }
-          break;
+
       default:
           break;
     }
