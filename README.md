@@ -8,10 +8,8 @@ gearbox.
 
 Views:
 
-  ------------------------------------------------- ---------------------------------------
-  ![Fig 1. Perspective View](./imgs/rotating.gif)   ![Fig 2. Front View](./imgs/side.PNG)
-  ![Fig 3. Top View](./imgs/front.PNG)              ![Fig 4. Side View](./imgs/Cut.PNG)
-  ------------------------------------------------- ---------------------------------------
+![Fig 1. Perspective View](./imgs/rotating.gif)   ![Fig 2. Front View](./imgs/side.PNG)
+![Fig 3. Top View](./imgs/front.PNG)              ![Fig 4. Side View](./imgs/Cut.PNG)
 
 # Bill of Materials
 
@@ -56,7 +54,7 @@ Views:
 # Controller
 
   ---------------------------------------------- --------------------------------------------
-  ![Fig 1. Front](./imgs/controller_front.png)   ![Fig 2. Back](./imgs/controller_back.png)
+  <img src="./imgs/controller_front.png" alt="controller_front" width="300"/> <img src="./imgs/controller_back.png" alt="controller_back" width="300"/> 
   ---------------------------------------------- --------------------------------------------
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -138,11 +136,13 @@ Views:
 |Frame |Signal|Bit Position|Bit Length|Scale|Offset|Units|Notes                 |
 |------|------|------------|----------|-----|------|-----|----------------------|
 |0x001 |      |<ul><li>0</li><li>16</li><li>32</li></ul>|<ul><li>16</li><li>16</li><li>16</li></ul>|<ul><li>0.125</li><li>0.125</li><li>0.125</li></ul>|<ul><li>0</li><li>0</li><li>0</li></ul>|<ul><li>-</li><li>-</li><li>-</li></ul>|<ul><li>P value for the PID position control</li><li>I value for the PID position control</li><li>D value for the PID position control</li></ul>|
-|0x001 |      |<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>Oe</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li><li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|
-|0x001 |      |<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>Oe</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li><li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|
-|0x001 |      |<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>Oe</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li><li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|
-|0x001 |      |<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>Oe</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li><li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|
-|0x001 |      |<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>Oe</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li><li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|
-|0x001 |      |<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>Oe</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li><li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|<ul><li>One</li><li>Two</li><li>Three</li><li>Four</li></ul>|
+|0x002 |      |<ul><li>0</li><li>16</li><li>32</li><li>48</li></ul>|<ul><li>16</li><li>16</li><li>16</li><li>16</li></ul>|<ul><li>0.125</li><li>0.125</li><li>0.125</li><li>0.125</li></ul>|<ul><li>0</li><li>0</li><li>0</li><li>0</li><li></ul>|<ul><li>-</li><li>-</li><li>-</li><li>rad/s</li></ul>|<ul><li>P value for the PID speed control</li><li>I value for the PID speed control</li><li>D value for the PID speed control</li><li>Speed limit</li></ul>|
+0x003 |      |<ul><li>0</li><li>16</li><li>32</li><li>48</li></ul>|<ul><li>16</li><li>16</li><li>16</li><li>16</li></ul>|<ul><li>0.125</li><li>0.125</li><li>1</li><li>0.125</li></ul>|<ul><li>0</li><li>0</li><li>0</li><li>-4095</li><li></ul>|<ul><li>V</li><li>V</li><li>-</li><li>rad</li></ul>|<ul><li>Voltage limit for motor input</li><li>Voltage limit for aling in calibration</li><li>Calibration (1 skip, o calibrate)</li><li>Electric angle offset </li></ul>|
+0x004 |      |<ul><li>0</li><li>16</li><li>32</li><li>48</li></ul>|<ul><li>16</li><li>16</li><li>16</li><li>16</li></ul>|<ul><li>0.125</li><li>0.125</li><li>1</li><li>0.125</li></ul>|<ul><li>-4095</li><li>-4095</li><li>-4095</li><li>-4095</li><li></ul>|<ul><li>V</li><li>V</li><li>I</li><li>rad</li></ul>|<ul><li>Ua component of voltage input</li><li>Ub component of voltage input</li><li>Current drawn by motor</li><li>Electric angle  </li></ul>|
+0x005 |      |<ul><li>0</li><li>16</li><li>32</li></ul>|<ul><li>16</li><li>16</li><li>16</li></ul>|<ul><li>0.125</li><li>0.125</li><li>0.125</li></ul>|<ul><li>-4095</li><li>-4095</li><li>-4095</li><li></ul>|<ul><li>rad</li><li>rad</li><li>rad/s</li></ul>|<ul><li>Current mechanical angle</li><li>Mechanical angle setponit</li><li>Shaft speed</li></ul>|
+0x006 |      |<ul><li>0</li></ul>|<ul><li>16</li></ul>|<ul><li>1</li></ul>|<ul><li>0</li><li></ul>|<ul><li>-</li></ul>|<ul><li>Finite State Machine transition</li></ul>|
+0x007 |      |<ul><li>0</li></ul>|<ul><li>16</li></ul>|<ul><li>0.125</li></ul>|<ul><li>-4095</li><li></ul>|<ul><li>rad</li></ul>|<ul><li>Motor set point command</li></ul>|
 
+## DRIVERS
+Custom [Python](https://github.com/ManuelSanchezMo/Robotic_actuator_python_driver) and [ROS](https://www.google.com)  drivers are available for the device. 
 # Buildin Instructions
