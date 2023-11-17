@@ -38,36 +38,50 @@ BU_:
 
 
 
-BO_ 1 INIT_FB: 8 Vector__XXX
+BO_ 1 CONFIG_1: 8 Vector__XXX
 	SG_ P_control : 0|16@1- (0.125,0) [0|8192] "" Vector__XXX
 	SG_ I_control : 16|16@1- (0.125,0) [0|8192] "" Vector__XXX
 	SG_ D_control : 32|16@1- (0.125,0) [0|8192] "" Vector__XXX	
-	SG_ Volt_limit : 48|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
 
-BO_ 2 MOTOR_OUT_ELEC: 8 Vector__XXX
+BO_ 2 CONFIG_2: 8 Vector__XXX
+	SG_ P_vel : 0|16@1- (0.125,0) [0|8192] "" Vector__XXX
+	SG_ I_vel : 16|16@1- (0.125,0) [0|8192] "" Vector__XXX
+	SG_ D_vel : 32|16@1- (0.125,0) [0|8192] "" Vector__XXX
+	SG_ Vel_lim : 48|16@1- (0.125,0) [0|8192] "" Vector__XXX
+
+BO_ 3 CONFIG_3: 8 Vector__XXX
+	SG_ Volt_lim : 0|16@1- (0.125,0) [0|8192] "" Vector__XXX
+	SG_ V_aling : 16|16@1- (0.125,0) [0|8192] "" Vector__XXX
+	SG_ Calibrate : 32|16@1- (1,0) [0|1] "" Vector__XXX	
+	SG_ Zero_angle_elec : 48|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
+
+BO_ 4 MOTOR_OUT_ELEC: 8 Vector__XXX
 	SG_ Ua : 0|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX
 	SG_ Ub : 16|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX
 	SG_ current : 32|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
 	SG_ electrical_angle : 48|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
 	
-BO_ 3 MOTOR_OUT_MEC: 6 Vector__XXX
+BO_ 5 MOTOR_OUT_MEC: 6 Vector__XXX
 	SG_ shaft_angle : 0|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX
 	SG_ shaft_angle_sp : 16|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX
 	SG_ shaft_velocity : 32|16@1- (0.125,-4095) [-4096|4096] "" Vector__XXX	
+
+BO_ 6 TRANSITION: 2 Vector__XXX
+	SG_ Transition : 0|8@1+ (1,0) [0|6] "" Vector__XXX
+
 
 BO_ 7 MOTOR_ANGLE_SP: 2 Vector__XXX
 	SG_ angle_sp : 0|16@1+ (0.125,-4095) [-4096|4096] "" Vector__XXX
 
 
 
-CM_ BO_ 1 "Driver controller set point";
-CM_ SG_ 1 speed_sp "Driver speed set point";
-CM_ BO_ 2 "Steering controller set point";
-CM_ SG_ 2 speed_sp "Steer speed set point";
-CM_ BO_ 3 "Driver controller feedback";
-CM_ BO_ 3 "Steer controller feedback";
-CM_ BO_ 7 "Driver controller feedback 2";
-CM_ BO_ 7 "Steer controller feedback 2";
+CM_ BO_ 1 "Motor config 1";
+CM_ BO_ 2 "Motor config 2";
+CM_ BO_ 3 "Motor config 3";
+CM_ BO_ 4 "Motor electric vars feedback";
+CM_ BO_ 5 "Motor mecanic vars feedback";
+CM_ BO_ 6 "Motor transition finite state machine";
+CM_ BO_ 7 "Motor set point";
 
 BA_DEF_ SG_  "SPN" INT 0 524287;
 BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","J1939PG";
