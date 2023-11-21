@@ -73,12 +73,17 @@ Views:
 
 
 # Firmware
-The firmaware is developed with the Arduino IDE for the STM32 boards. 
+The firmaware is developed with the Arduino IDE for the STM32 boards. It implements the Finite State Machine shown in the Fig 1, where (X) indicates state number and [X] the transition number. For the low level motion control the firmaware use the  Field Oriented Control (FOC) algorithm for Arduino [SimpleFOC](https://simplefoc.com/) The following dependencies  required:
+
+* [SimpleFOC Arduino library](https://github.com/simplefoc/Arduino-FOC)
+* [Library for CAN comunication](https://github.com/autowp/arduino-mcp2515/)
+* [Finite State Machine library](https://github.com/kiwisincebirth/Arduino/blob/master/libraries/FSM/FiniteStateMachine.h)
+*  [Custom can messages parser](/firmware/can_parser.zip)
 
 <p align="center">
  <figure>
   <img src="./imgs/Motor_FSM.png" />
-  <figcaption>Finite Sate Machine of the actuator.</figcaption>
+  <figcaption>Fig 1. Finite Sate Machine of the actuator.</figcaption>
 </figure> 
 </p>
 
